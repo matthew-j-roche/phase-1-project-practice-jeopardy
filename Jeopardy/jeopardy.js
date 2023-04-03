@@ -1,8 +1,6 @@
 const random_url = "http://jservice.io/api/random"
 const search = document.querySelector("#search")
 const questionContainer = document.querySelector("#question-container")
-const nextBtn = document.createElement('button')
-nextBtn.textContent = "next question"
 
 function fetchJeopardy() {
     fetch(random_url)
@@ -45,12 +43,20 @@ function createQuestion(obj) {
         questionBox.appendChild(ansBtn)
         
         ansBtn.addEventListener('click', () => {
+            const nextBtn = document.createElement('button')
+            nextBtn.textContent = "next question"
             questionBox.removeChild(question)
             questionBox.removeChild(ansBtn)
             questionBox.appendChild(answer)
             questionBox.appendChild(nextBtn)
+            
+            nextBtn.addEventListener('click', () => {
+                questionContainer.removeChild(questionBox)
+                questionContainer.removeChild(categoryBox)
+                fetchJeopardy();
+            })
+        })
     })
-    })
-    }
+}
 
 fetchJeopardy();
